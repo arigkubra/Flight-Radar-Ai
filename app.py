@@ -3,6 +3,7 @@ import pandas as pd
 import folium
 from folium.plugins import MarkerCluster
 from sklearn.ensemble import IsolationForest
+import os
 
 # OpenSky Network API'den uçuş verilerini çekme
 URL = "https://opensky-network.org/api/states/all"
@@ -81,6 +82,10 @@ for _, row in anomalies.iterrows():
             icon=folium.Icon(color='red')
         ).add_to(marker_cluster)
 
-# Haritayı kaydetme
-flight_map.save("flight_radar_map_with_anomalies.html")
-print("Harita kaydedildi: flight_radar_map_with_anomalies.html")
+# Haritayı "static" klasöründe kaydetme
+if not os.path.exists('static'):
+    os.makedirs('static')
+
+flight_map.save('static/flight_radar_map_with_anomalies.html')
+
+print("Harita kaydedildi: static/flight_radar_map_with_anomalies.html")
